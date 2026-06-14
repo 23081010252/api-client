@@ -7,19 +7,24 @@
 
 <div style="max-width:640px">
 
-    {{-- Panduan cara mendapatkan API Key --}}
+    {{-- Panduan cara mendapatkan API Key: Membantu user memahami sumber autentikasi --}}
     <div class="card" style="margin-bottom:20px">
         <div class="card-header">
             <h3><i class="fas fa-book" style="color:#2563eb;margin-right:6px"></i>Cara Mendapatkan API Key</h3>
         </div>
         <div class="card-body">
-            <ol style="font-size:13px;color:#374151;line-height:1.9;padding-left:18px">
-                <li>Buka browser dan akses <strong>Web Admin/Server API</strong> (contoh: <code style="background:#f3f4f6;padding:1px 6px;border-radius:4px">http://localhost/toko_roti</code>)</li>
-                <li>Daftar akun baru atau login jika sudah punya akun</li>
-                <li>Setelah login berhasil, API Key akan ditampilkan atau bisa dilihat di halaman profil/dashboard admin</li>
-                <li>Salin API Key tersebut, lalu tempelkan di kolom <strong>"API Key"</strong> di bawah ini</li>
-                <li>Klik <strong>Simpan Pengaturan</strong></li>
-            </ol>
+            <ol style="font-size: 13px; 
+           color: #374151; 
+           line-height: 1.9; 
+           padding-left: 25px; 
+           list-style-type: decimal; 
+           list-style-position: outside;">
+    <li>Buka browser dan akses <strong>Web Admin/Server API</strong> ...</li>
+    <li>Daftar akun baru atau login jika sudah punya akun</li>
+    <li>Setelah login berhasil, API Key akan ditampilkan...</li>
+    <li>Salin API Key tersebut, lalu tempelkan di kolom <strong>"API Key"</strong>...</li>
+    <li>Klik <strong>Simpan Pengaturan</strong></li>
+</ol>
             <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;margin-top:12px;font-size:12.5px;color:#92400e">
                 <i class="fas fa-lightbulb"></i> <strong>Tips:</strong>
                 Saat login melalui halaman <a href="{{ route('login') }}" style="color:#92400e;font-weight:600">Login</a> di sini,
@@ -28,7 +33,7 @@
         </div>
     </div>
 
-    {{-- Form Pengaturan --}}
+    {{-- Form Konfigurasi: Menyimpan konfigurasi ke dalam session --}}
     <div class="card">
         <div class="card-header">
             <h3><i class="fas fa-sliders-h" style="color:#16a34a;margin-right:6px"></i>Konfigurasi API</h3>
@@ -59,14 +64,14 @@
                     <input type="text" name="api_key"
                         class="form-control {{ $errors->has('api_key') ? 'is-invalid' : '' }}"
                         value="{{ old('api_key', session('api_key')) }}"
-                        placeholder="ROTI-xxxxxxxxxxxxxxxx"
+                        placeholder="Kode API Key"
                         style="font-family:monospace"
                         required>
                     @error('api_key')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                     <div class="form-text">
-                        API Key didapat setelah login ke server API. Format: <code>ROTI-xxxxxxxxxxxx</code>
+                        API Key didapat setelah login ke server API. 
                     </div>
                 </div>
 
@@ -82,7 +87,7 @@
         </div>
     </div>
 
-    {{-- Status Koneksi Saat Ini --}}
+    {{-- Status Koneksi: Menampilkan data yang saat ini tersimpan di session --}}
     <div class="card" style="margin-top:20px">
         <div class="card-header">
             <h3><i class="fas fa-info-circle" style="color:#6b7280;margin-right:6px"></i>Status Koneksi Saat Ini</h3>

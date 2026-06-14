@@ -5,7 +5,7 @@
 
 @section('content')
 
-{{-- Stats mini --}}
+{{-- Menampilkan Ringkasan Statistik (Stats Mini) yang diambil dari API --}}
 @isset($stats)
 <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
     <div class="stat-card" style="padding:14px">
@@ -27,6 +27,7 @@
 </div>
 @endisset
 
+{{-- Notifikasi jika terjadi kegagalan saat mengambil data dari API --}}
 @isset($apiError)
     <div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> {{ $apiError }}</div>
 @endisset
@@ -40,7 +41,7 @@
     </div>
     <div class="card-body" style="padding:16px 20px">
 
-        {{-- Filter & Search --}}
+        {{-- Form Filter: Mengirim request GET ke route yang sama untuk memfilter data --}}
         <form method="GET" action="{{ route('produk.index') }}" class="filter-bar">
             <input type="text" name="search" class="form-control"
                 placeholder="&#xf002; Cari nama produk..."
@@ -64,6 +65,7 @@
             @endif
         </form>
 
+        {{-- Tabel Data Produk --}}
         <div class="table-wrap">
             <table>
                 <thead>
@@ -87,6 +89,7 @@
                         </td>
                         <td style="font-family:monospace">Rp {{ number_format($p['harga']) }}</td>
                         <td>
+                            {{-- Logika warna badge berdasarkan jumlah stok --}}
                             <span class="badge {{ (int)$p['stok'] < 10 ? 'badge-red' : ((int)$p['stok'] < 30 ? 'badge-yellow' : 'badge-green') }}">
                                 {{ $p['stok'] }}
                             </span>
@@ -100,9 +103,12 @@
                                     class="btn btn-secondary btn-sm" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                {{-- Tombol pemicu modal hapus (menggunakan data attributes) --}}
                                 <button type="button"
                                     class="btn btn-danger btn-sm"
-                                    onclick="confirmDelete({{ $p['id'] }}, '{{ addslashes($p['nama_produk']) }}')"
+                                    data-id="{{ $p['id'] }}"
+                                    data-nama="{{ $p['nama_produk'] }}"
+                                    onclick="confirmDelete(this)"
                                     title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -122,11 +128,10 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 
-{{-- Delete Modal --}}
+{{-- Modal Konfirmasi Hapus --}}
 <div class="modal-overlay" id="deleteModal">
     <div class="modal">
         <div class="modal-header">
@@ -154,17 +159,25 @@
 
 @push('scripts')
 <script>
-function confirmDelete(id, nama) {
+// Fungsi JavaScript untuk menangani modal konfirmasi delete secara dinamis
+function confirmDelete(button) {
+    const id = button.getAttribute('data-id');
+    const nama = button.getAttribute('data-nama');
+
     document.getElementById('deleteNama').textContent = '"' + nama + '"';
     document.getElementById('deleteForm').action = '/produk/' + id;
     document.getElementById('deleteModal').classList.add('show');
 }
+
 function closeModal() {
     document.getElementById('deleteModal').classList.remove('show');
 }
+
+// Menutup modal jika user menekan area luar modal atau tombol ESC
 document.getElementById('deleteModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
 });
+
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeModal();
 });

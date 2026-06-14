@@ -15,15 +15,17 @@
         </div>
         <div class="card-body">
 
+            {{-- Informasi endpoint untuk mempermudah pelacakan pengiriman data PUT --}}
             <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;margin-bottom:20px;font-size:12.5px;color:#92400e">
                 <i class="fas fa-info-circle"></i>
                 Data akan dikirim via <strong>PUT</strong> ke
                 <code style="background:#fef3c7;padding:1px 6px;border-radius:3px">{{ session('api_base_url') }}/produk.php?id={{ $produk['id'] }}</code>
             </div>
 
+            {{-- Form untuk memperbarui data produk --}}
             <form method="POST" action="{{ route('produk.update', $produk['id']) }}">
                 @csrf
-                @method('PUT')
+                @method('PUT') {{-- Menggunakan method spoofing PUT untuk request RESTful --}}
 
                 <div class="form-group">
                     <label class="form-label">ID Kategori <span class="required">*</span></label>
@@ -34,6 +36,8 @@
                     @error('id_kategori')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                    
+                    {{-- Menampilkan daftar kategori tersedia sebagai referensi pengeditan --}}
                     @if(!empty($kategoriList))
                     <div class="form-text">
                         Kategori tersedia:
@@ -78,7 +82,7 @@
                     </div>
                 </div>
 
-                {{-- Info produk saat ini --}}
+                {{-- Ringkasan metadata produk dari server --}}
                 <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:12px;margin-bottom:16px;font-size:12px;color:#6b7280">
                     <strong style="display:block;margin-bottom:6px">Data saat ini di server:</strong>
                     Kategori: <strong>{{ $produk['nama_kategori'] ?? $produk['id_kategori'] }}</strong> &nbsp;|&nbsp;

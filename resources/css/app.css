@@ -1,13 +1,29 @@
 @import "tailwindcss";
 
+/* * Menentukan sumber file (source) yang akan dipindai oleh Tailwind 
+ * untuk mencari class CSS yang digunakan.
+ */
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
 @theme {
+    /* Mengonfigurasi tipografi kustom menggunakan font Instrument Sans */
     --font-sans:
         "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
+
+    /* * Registrasi warna kustom ke sistem utilitas Tailwind v4.
+     * Variabel ini memungkinkan penggunaan class seperti 'bg-brown-primary' 
+     * atau 'text-cream-light' di seluruh file view Anda.
+     */
+    --color-brown-primary: #6b3f2a;
+    --color-brown-dark: #3b1f0f;
+    --color-brown-light: #a0522d;
+    --color-cream-light: #faf5ec;
+    --color-cream: #f5ecd7;
+    --color-sage: #7d9b76;
+    --color-sage-dark: #6b8765;
 }

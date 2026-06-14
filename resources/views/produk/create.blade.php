@@ -15,6 +15,14 @@
         </div>
         <div class="card-body">
 
+            {{-- Pesan error jika terjadi masalah pada koneksi atau validasi di server API --}}
+            @if(session('error'))
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+                </div>
+            @endif
+
+            {{-- Informasikan user tentang endpoint yang dituju agar proses debugging lebih mudah --}}
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:10px 14px;margin-bottom:20px;font-size:12.5px;color:#166534">
                 <i class="fas fa-info-circle"></i>
                 Data akan dikirim via <strong>POST</strong> ke
@@ -22,25 +30,27 @@
                 dengan header <code style="background:#dcfce7;padding:1px 6px;border-radius:3px">X-API-KEY</code>
             </div>
 
+            {{-- Form untuk menginput data produk baru --}}
             <form method="POST" action="{{ route('produk.store') }}">
-                @csrf
+                @csrf {{-- Token keamanan untuk perlindungan CSRF --}}
 
                 <div class="form-group">
-                    <label class="form-label">ID Kategori <span class="required">*</span></label>
-                    <input type="number" name="id_kategori"
-                        class="form-control {{ $errors->has('id_kategori') ? 'is-invalid' : '' }}"
-                        value="{{ old('id_kategori') }}"
-                        placeholder="Contoh: 1"
-                        min="1" required>
+                    <label class="form-label">Kategori Roti <span class="required">*</span></label>
+                    <select name="id_kategori" class="form-control {{ $errors->has('id_kategori') ? 'is-invalid' : '' }}" required>
+                        <option value="">-- Pilih Kategori Roti --</option>
+                        {{-- Iterasi daftar kategori yang didapat dari server API --}}
+                        @if(!empty($kategoriList))
+                            @foreach($kategoriList as $id => $nm)
+                                <option value="{{ $id }}" {{ old('id_kategori') == $id ? 'selected' : '' }}>
+                                    {{ $id }} — {{ $nm }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
                     @error('id_kategori')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                    <div class="form-text">
-                        Masukkan ID kategori sesuai yang ada di database server
-                        @if(!empty($kategoriList))
-                            — tersedia: {{ implode(', ', array_map(fn($id,$nm) => "$id ($nm)", array_keys($kategoriList), $kategoriList)) }}
-                        @endif
-                    </div>
+                    <div class="form-text">Pilih salah satu kategori aktif yang terdaftar pada sistem server.</div>
                 </div>
 
                 <div class="form-group">
@@ -55,6 +65,7 @@
                     @enderror
                 </div>
 
+                {{-- Layout dua kolom untuk Harga dan Stok agar lebih efisien secara visual --}}
                 <div class="form-grid">
                     <div class="form-group">
                         <label class="form-label">Harga (Rp) <span class="required">*</span></label>
@@ -80,7 +91,7 @@
                     </div>
                 </div>
 
-                <div style="display:flex;gap:10px;margin-top:8px">
+                <div style="display:flex;gap:10px;margin-top:20px">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i> Kirim ke API
                     </button>

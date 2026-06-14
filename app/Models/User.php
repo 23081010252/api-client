@@ -2,19 +2,25 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+// Mengimpor kelas pendukung untuk fitur autentikasi dan database
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Model User yang mewakili tabel 'users' di database.
+ * Model ini digunakan untuk menangani autentikasi pengguna aplikasi.
+ */
 class User extends Authenticatable
 {
+    // Menggunakan trait HasFactory (untuk testing) dan Notifiable (untuk sistem notifikasi Laravel)
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Menentukan kolom mana saja yang boleh diisi (mass assignable).
+     * Melindungi aplikasi dari pengisian massal yang tidak diinginkan (Mass Assignment Vulnerability).
      *
      * @var list<string>
      */
@@ -25,7 +31,8 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Menentukan kolom yang harus disembunyikan (hidden) dari hasil array atau JSON.
+     * Biasanya digunakan agar data sensitif seperti password tidak terekspos.
      *
      * @var list<string>
      */
@@ -35,15 +42,16 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Mendefinisikan konversi tipe data (casting) untuk atribut tertentu.
+     * Memastikan data diproses dengan format yang benar saat diakses dari database.
      *
      * @return array<string, string>
      */
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'email_verified_at' => 'datetime', // Mengonversi ke objek Carbon/datetime
+            'password' => 'hashed',            // Mengamankan password dengan hashing otomatis
         ];
     }
 }

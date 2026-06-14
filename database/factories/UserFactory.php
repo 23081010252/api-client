@@ -8,33 +8,37 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends Factory<User>
+ * Factory untuk membuat data dummy (palsu) dari model User.
+ * Biasanya digunakan untuk keperluan testing atau seeding database.
+ * * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
+     * Menyimpan referensi password agar tidak perlu melakukan hashing berulang kali.
      */
     protected static ?string $password;
 
     /**
-     * Define the model's default state.
+     * Mendefinisikan status bawaan (default state) untuk model User.
+     * Menggunakan library 'fake()' untuk menghasilkan data acak yang realistis.
      *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'name'              => fake()->name(),
+            'email'             => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(), // Menandakan email sudah terverifikasi saat dibuat
+            'password'          => static::$password ??= Hash::make('password'), // Password default: 'password'
+            'remember_token'    => Str::random(10), // Membuat token acak untuk fitur "remember me"
         ];
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * State tambahan untuk mensimulasikan kondisi user yang emailnya belum diverifikasi.
+     * Dapat dipanggil dengan: User::factory()->unverified()->create();
      */
     public function unverified(): static
     {

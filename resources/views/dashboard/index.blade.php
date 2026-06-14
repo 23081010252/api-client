@@ -5,7 +5,7 @@
 
 @section('content')
 
-{{-- Stats --}}
+{{-- Menampilkan 4 kotak statistik utama (Total Produk, Total Stok, Harga Min, Harga Max) --}}
 <div class="stats-grid">
     <div class="stat-card">
         <div class="stat-icon" style="background:#dcfce7;color:#16a34a"><i class="fas fa-box-open"></i></div>
@@ -29,9 +29,10 @@
     </div>
 </div>
 
+{{-- Layout grid dua kolom untuk menampilkan daftar produk terbaru dan stok kritis --}}
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
 
-    {{-- Produk Terbaru --}}
+    {{-- Tabel Produk Terbaru: Menampilkan 5 produk terakhir yang diinput --}}
     <div class="card">
         <div class="card-header">
             <h3><i class="fas fa-clock" style="color:#16a34a;margin-right:6px"></i>Produk Terbaru</h3>
@@ -67,7 +68,7 @@
         </div>
     </div>
 
-    {{-- Stok Rendah --}}
+    {{-- Tabel Stok Rendah: Menampilkan produk dengan stok < 10 untuk peringatan --}}
     <div class="card">
         <div class="card-header">
             <h3><i class="fas fa-exclamation-triangle" style="color:#d97706;margin-right:6px"></i>Stok Rendah</h3>
@@ -101,7 +102,7 @@
 
 </div>
 
-{{-- Info Koneksi API --}}
+{{-- Panel Informasi Koneksi API: Menampilkan konfigurasi yang sedang aktif dari sesi --}}
 <div class="card" style="margin-top:20px">
     <div class="card-header">
         <h3><i class="fas fa-plug" style="color:#16a34a;margin-right:6px"></i>Informasi Koneksi API</h3>
