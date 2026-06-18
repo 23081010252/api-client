@@ -28,15 +28,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'slack' => [
-        'notifications' => [
-            'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
-            'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
-        ],
+   'slack' => [
+    'notifications' => [
+        'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
+        'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
     ],
+],
 
-    'api' => [
-    'base_url' => env('API_BASE_URL', 'http://localhost/Project-UAS-Pem-API/server/public'),
+'api' => [
+    'base_url' => env('API_BASE_URL', 'https://project-uas-pem-api-production.up.railway.app'),
 ],
 
 ];

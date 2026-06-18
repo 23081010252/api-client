@@ -25,14 +25,14 @@ class ApiService
      * Mengambil session secara real-time agar token dinamis dari dashboard langsung terbaca.
      */
     protected function http()
-    {
-        $currentApiKey = session('api_key', $this->apiKey);
+{
+    $currentApiKey = session('api_key', $this->apiKey);
 
-        return Http::withHeaders([
-            'Authorization' => 'Bearer ' . $currentApiKey,
-            'Accept'        => 'application/json',
-        ])->timeout(15);
-    }
+    return Http::withHeaders([
+        'Authorization' => 'Bearer ' . $currentApiKey,
+        'Accept'        => 'application/json',
+    ])->timeout(15);
+}
 
     // ── Auth ──────────────────────────────────────────────────────────────────
 
